@@ -62,8 +62,6 @@ class MainActivity : AppCompatActivity() {
     private fun observeSuggestionsData() {
         mainViewModel.getSuggestionsLiveData().observe(this, Observer {
             when (it.status) {
-                Resource.Status.LOADING -> {
-                }
                 Resource.Status.SUCCESS -> {
                     searchView.replaceSuggestions(it.data)
                 }
@@ -99,12 +97,11 @@ class MainActivity : AppCompatActivity() {
     private fun initWebView() {
         webView.webChromeClient = ProgressChromeViewClient(progressBar)
         webView.webViewClient = ProgressWebViewClient(progressBar)
+        webView.settings.javaScriptEnabled = true
     }
 
     override fun onBackPressed() {
-        if (!searchView.isIconified)
-            searchView.isIconified = true
-        else if (webView.canGoBack())
+        if (webView.canGoBack())
             webView.goBack()
         else
             super.onBackPressed()
