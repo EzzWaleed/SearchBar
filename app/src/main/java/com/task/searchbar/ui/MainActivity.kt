@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mainViewModel: MainViewModel
 
+    lateinit var searchView: SearchView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,7 +42,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        (menu!!.findItem(R.id.action_search).actionView as SearchView).setOnQueryTextListener(searchListener)
+        searchView = menu!!.findItem(R.id.action_search).actionView as SearchView
+        searchView.setOnQueryTextListener(searchListener)
         return true
     }
 
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            return true
+            return false
         }
     }
 
@@ -65,8 +68,6 @@ class MainActivity : AppCompatActivity() {
         webView.webChromeClient = ProgressChromeViewClient(progressBar)
         webView.webViewClient = ProgressWebViewClient(progressBar)
     }
-
-
 
     override fun onBackPressed() {
         if (webView.canGoBack())
