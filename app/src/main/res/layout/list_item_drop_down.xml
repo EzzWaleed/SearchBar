@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="@drawable/list_item_ripple"
+    android:background="#fff">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:layout_margin="15dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="18sp"
+        tools:text="@tools:sample/lorem/random"/>
+
+</FrameLayout>

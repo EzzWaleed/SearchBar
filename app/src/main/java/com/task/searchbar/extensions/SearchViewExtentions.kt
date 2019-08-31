@@ -1,23 +1,16 @@
-package com.task.searchbar.extensions
-
-import android.R
 import android.app.SearchManager
-import android.database.Cursor
 import android.database.MatrixCursor
-import android.widget.AutoCompleteTextView
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
-
 import androidx.cursoradapter.widget.CursorAdapter
 import androidx.cursoradapter.widget.SimpleCursorAdapter
+import com.task.searchbar.R
 
 private fun SearchView.initSuggestionAdapterAdapter(){
     val columnNames = arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1)
-    val viewIds = intArrayOf(R.id.text1)
+    val viewIds = intArrayOf(R.id.tv)
     suggestionsAdapter = SimpleCursorAdapter(
         context,
-        R.layout.simple_list_item_2,
+        R.layout.list_item_drop_down,
         null,
         columnNames,
         viewIds,
@@ -57,5 +50,6 @@ fun SearchView.replaceSuggestions(suggestions: List<String>?){
         }
 
         suggestionsAdapter.swapCursor(cursor)
+
     }
 }

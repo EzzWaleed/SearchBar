@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.task.searchbar.data.resource.Resource
 import com.task.searchbar.extensions.isHttpLink
 import com.task.searchbar.extensions.loadUri
-import com.task.searchbar.extensions.replaceSuggestions
 import com.task.searchbar.presentation.viewmodel.MainViewModel
 import com.task.searchbar.presentation.viewmodel.viewmodel_factory.ViewModelFactory
 import com.task.searchbar.ui.client.ProgressChromeViewClient
@@ -20,6 +19,7 @@ import com.task.searchbar.ui.client.ProgressWebViewClient
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import replaceSuggestions
 import javax.inject.Inject
 
 
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            newText?.let { if (it.length > 1) mainViewModel.getSuggestions(newText) }
+            newText?.let { mainViewModel.getSuggestions(it) }
             return false
         }
     }
