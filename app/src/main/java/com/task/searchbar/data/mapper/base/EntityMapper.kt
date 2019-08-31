@@ -1,7 +1,5 @@
 package com.task.searchbar.data.mapper.base
 
-import androidx.lifecycle.Transformations.map
-
 abstract class EntityMapper<IN, OUT> {
 
     abstract fun map(input: IN): OUT

@@ -1,4 +1,4 @@
-package com.task.searchbar.presentation.viewmodel.viewmodel_factory
+package com.task.searchbar.presentation.viewmodel.viewmodel_factory.di
 
 import javax.inject.Named
 
@@ -16,13 +16,13 @@ class SchedulersModule {
 
     @Provides
     @Named(value = IO_SCHEDULER)
-    internal fun bindIoScheduler(): Scheduler {
+    fun bindIoScheduler(): Scheduler {
         return Schedulers.io()
     }
 
     @Provides
     @Named(value = MAIN_THREAD_SCHEDULER)
-    internal fun bindMainThreadScheduler(): Scheduler {
+    fun bindMainThreadScheduler(): Scheduler {
         return AndroidSchedulers.mainThread()
     }
 

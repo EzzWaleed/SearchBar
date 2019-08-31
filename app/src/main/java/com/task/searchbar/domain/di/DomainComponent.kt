@@ -23,6 +23,8 @@ interface DomainComponent {
         @BindsInstance
         fun bindsContext(context: Context): Builder
 
+        fun bindsDataComponent(dataComponent: DataComponent): Builder
+
         fun build(): DomainComponent
     }
 }

@@ -12,7 +12,7 @@ import dagger.Module
 /**
  * Created by Ezz Waleed on 07,March,2019
  */
-@Module(includes = [ViewModelsModule::class])
+@Module(includes = [ViewModelsModule::class, SchedulersModule::class])
 interface ViewModelFactoryModule {
     @Binds
     @PresentationScope

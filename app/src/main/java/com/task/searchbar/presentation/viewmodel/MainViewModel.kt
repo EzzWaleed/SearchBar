@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.task.searchbar.data.resource.Resource
 import com.task.searchbar.domain.usecase.GetUriUseCase
 import com.task.searchbar.domain.usecase.SuggestUseCase
-import com.task.searchbar.presentation.viewmodel.viewmodel_factory.SchedulersModule.Companion.IO_SCHEDULER
-import com.task.searchbar.presentation.viewmodel.viewmodel_factory.SchedulersModule.Companion.MAIN_THREAD_SCHEDULER
+import com.task.searchbar.presentation.viewmodel.viewmodel_factory.di.SchedulersModule.Companion.IO_SCHEDULER
+import com.task.searchbar.presentation.viewmodel.viewmodel_factory.di.SchedulersModule.Companion.MAIN_THREAD_SCHEDULER
+import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -17,25 +18,33 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class MainViewModel @Inject constructor(
-    @Named(value = IO_SCHEDULER) private val ioScheduler: Scheduler,
-    @Named(value = MAIN_THREAD_SCHEDULER) private val mainScheduler: Scheduler,
+    @param:Named(IO_SCHEDULER) private val ioScheduler: Scheduler,
+    @param:Named(MAIN_THREAD_SCHEDULER) private val mainScheduler: Scheduler,
     private val getUriUseCase: GetUriUseCase,
     private val suggestUseCase: SuggestUseCase
 ) : ViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
+    var queryState: String? = null
 
     private val queryPublishSubject = PublishSubject.create<String>()
 
+    private val compositeDisposable = CompositeDisposable()
+
     private val suggestionsLiveData = MutableLiveData<Resource<List<String>>>()
 
+
+    init {
+        initQueryObservation()
+    }
+
+
     fun getUri(query: String): Uri {
+        queryState = query
         return getUriUseCase.getUri(query)
     }
 
-    fun initQueryObservation() {
-
-        queryPublishSubject
+    private fun initQueryObservation() {
+        val disposable = queryPublishSubject
             .observeOn(mainScheduler)
             .debounce(400, TimeUnit.MILLISECONDS)
             .switchMap {
@@ -43,15 +52,15 @@ class MainViewModel @Inject constructor(
                     .subscribeOn(ioScheduler)
                     .doOnSubscribe { suggestionsLiveData.postValue(Resource.loading()) }
             }
-            .doOnError{suggestionsLiveData.value = Resource.domainError(it)}
+            .doOnError { suggestionsLiveData.postValue(Resource.domainError(it)) }
+            .retryWhen { it.map { Observable.just(Any()) } }
+            .subscribe { suggestionsLiveData.postValue(it) }
 
-
-
-
+        compositeDisposable.add(disposable)
     }
 
     fun getSuggestions(query: String) {
-
+        queryPublishSubject.onNext(query)
     }
 
     fun getSuggestionsLiveData(): LiveData<Resource<List<String>>> {

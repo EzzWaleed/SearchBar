@@ -5,6 +5,6 @@ import com.task.searchbar.data.mapper.base.EntityMapper
 import dagger.Module
 
 @Module
-interface MapperModule {
+interface DataMapperModule {
     fun bindsSuggestionsMapper(suggestionsMapper: SuggestionsMapper): EntityMapper<List<Any>, List<String>>
 }
