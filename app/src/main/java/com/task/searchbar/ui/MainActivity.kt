@@ -102,7 +102,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (webView.canGoBack())
+        if (!searchView.isIconified)
+            searchView.isIconified = true
+        else if (webView.canGoBack())
             webView.goBack()
         else
             super.onBackPressed()

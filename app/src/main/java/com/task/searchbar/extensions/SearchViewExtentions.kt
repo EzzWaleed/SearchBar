@@ -17,7 +17,7 @@ private fun SearchView.initSuggestionAdapterAdapter(){
     val viewIds = intArrayOf(R.id.text1)
     suggestionsAdapter = SimpleCursorAdapter(
         context,
-        R.layout.simple_list_item_1,
+        R.layout.simple_list_item_2,
         null,
         columnNames,
         viewIds,
