@@ -4,7 +4,7 @@ A simple search bar app built with kotlin using architecture, design and present
 
 ## Technical Overview
 
-The app is implemented using , Dagger, RxJava2, MVVM, Clean Architecture, a lot of design patterns such as factory, builder ,chain of responsibility, repository, observer patterns.
+The app is implemented using , Dagger, RxJava2, MVVM, Clean Architecture, a lot of design patterns such as factory, strategy, builder ,chain of responsibility, repository, observer patterns.
 
 
 1- Dagger;
